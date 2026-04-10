@@ -18,11 +18,17 @@
 | 프레임워크 | Flutter (최신 stable) |
 | 언어 | Dart |
 | 상태관리 | Riverpod |
-| HTTP 클라이언트 | Dio |
+| HTTP 클라이언트 | Dio (Retrofit 미사용 — 아래 참고) |
 | 라우팅 | go_router |
 | 지도 | flutter_naver_map (NMap SDK) |
 | 아키텍처 | Feature-first + Repository 패턴 |
 | 코드 생성 | freezed + json_serializable (모델) |
+
+### Retrofit 미사용 사유
+- 토이프로젝트 특성상 API 엔드포인트가 3개뿐이라 Retrofit의 이점이 크지 않음
+- 법령 API가 XML 응답이라 Retrofit의 JSON 자동 변환 이점 없음
+- 등기 API 응답 구조가 불확실하여 직접 파싱이 더 유연
+- **본 프로젝트에서는 API가 많아지고 JSON 응답이 일관될 때 Retrofit 도입 예정**
 
 ---
 
@@ -264,3 +270,9 @@ NAVER_MAP_CLIENT_ID=your_naver_map_client_id_here
 8. BottomNavigationBar로 3탭 통합
 9. 에러 핸들링/로딩 상태 정리
 10. (Optional) 테스트 작성
+
+---
+
+## 레퍼런스
+
+- [안드로이드 개발자가 빠르게 적용할 수 있는 Flutter 프로젝트 구성](https://dev.to/kingori/andeuroideu-gaebaljaga-bbareuge-jeogyonghal-su-issneun-flutter-peurojegteu-guseong-1n83)
