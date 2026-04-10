@@ -68,4 +68,7 @@ lib/generated_plugin_registrant.dart
 # IDE - IntelliJ / Android Studio
 .idea/
 
+# 환경변수
+.env
+
 # End of https://www.toptal.com/developers/gitignore/api/flutter
