@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import 'core/theme/app_theme.dart';
+import 'features/law/presentation/law_detail_screen.dart';
 import 'features/law/presentation/law_search_screen.dart';
 import 'features/map/presentation/map_screen.dart';
 import 'features/registry/presentation/registry_screen.dart';
@@ -22,6 +23,16 @@ final router = GoRouter(
             GoRoute(
               path: '/law',
               builder: (context, state) => const LawSearchScreen(),
+              routes: [
+                GoRoute(
+                  path: 'detail/:lawId',
+                  parentNavigatorKey: _rootNavigatorKey,
+                  builder: (context, state) => LawDetailScreen(
+                    lawId: state.pathParameters['lawId']!,
+                    lawName: state.extra as String? ?? '',
+                  ),
+                ),
+              ],
             ),
           ],
         ),
