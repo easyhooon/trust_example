@@ -14,6 +14,11 @@
 - 디자인: 토스 스타일 (미니멀, 카드 기반, Pretendard 폰트)
 - API 키는 .env로 관리 (절대 커밋 금지)
 
+## 커밋 규칙
+- 한글로 작성
+- Conventional Commits 접두사 사용: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `style:`, `test:`
+- 예시: `feat: 법령 검색 화면 구현`, `chore: 의존성 추가`
+
 ## 탭 구성
 1. 법령 검색 (국가법령정보센터 API)
 2. 등기 통계 (등기정보광장 API)
