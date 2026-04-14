@@ -18,6 +18,7 @@
 - 한글로 작성
 - Conventional Commits 접두사 사용: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `style:`, `test:`
 - 예시: `feat: 법령 검색 화면 구현`, `chore: 의존성 추가`
+- 커밋 시 푸시도 함께 실행
 
 ## 탭 구성
 1. 법령 검색 (국가법령정보센터 API)
