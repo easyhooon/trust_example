@@ -9,7 +9,7 @@ class LawRemoteDatasource {
 
   LawRemoteDatasource(this._dio);
 
-  /// 법령 검색
+  /// 현행법령(시행일) 목록 검색
   Future<List<LawSearchResult>> searchLaws({
     required String query,
     int display = 20,
@@ -19,11 +19,12 @@ class LawRemoteDatasource {
       'http://www.law.go.kr/DRF/lawSearch.do',
       queryParameters: {
         'OC': ApiKeys.lawApiKey,
-        'target': 'law',
+        'target': 'eflaw',
         'type': 'XML',
         'query': query,
         'display': display,
         'page': page,
+        'nw': 3, // 현행법령만
       },
     );
 
@@ -34,7 +35,7 @@ class LawRemoteDatasource {
       return LawSearchResult(
         lawId: _getText(element, '법령일련번호'),
         lawName: _getText(element, '법령명한글'),
-        lawType: _getText(element, '법령종류'),
+        lawType: _getText(element, '법령구분명'),
         promulgationDate: _getText(element, '공포일자'),
         enforcementDate: _getText(element, '시행일자'),
       );
@@ -47,7 +48,7 @@ class LawRemoteDatasource {
       'http://www.law.go.kr/DRF/lawService.do',
       queryParameters: {
         'OC': ApiKeys.lawApiKey,
-        'target': 'law',
+        'target': 'eflaw',
         'type': 'XML',
         'ID': lawId,
       },
@@ -56,7 +57,7 @@ class LawRemoteDatasource {
     final document = XmlDocument.parse(response.data as String);
 
     final lawName = _getTextFromRoot(document, '법령명_한글');
-    final lawType = _getTextFromRoot(document, '법령종류');
+    final lawType = _getTextFromRoot(document, '법종구분');
 
     final articles = document.findAllElements('조문단위').map((element) {
       return LawArticle(
