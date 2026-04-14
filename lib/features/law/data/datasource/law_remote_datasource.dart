@@ -9,6 +9,10 @@ class LawRemoteDatasource {
 
   LawRemoteDatasource(this._dio);
 
+  // TODO: 국가법령정보센터 API는 등록된 서버 IP에서만 호출 가능.
+  //  모바일 앱에서 직접 호출 시 "사용자 정보 검증 실패" 에러 발생.
+  //  해결 방안: 프록시 서버를 두거나, 마이페이지에서 IP 등록 필요.
+
   /// 현행법령(시행일) 목록 검색
   Future<List<LawSearchResult>> searchLaws({
     required String query,
