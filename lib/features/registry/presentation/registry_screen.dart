@@ -308,9 +308,15 @@ class _StatsChart extends StatelessWidget {
                             return const SizedBox.shrink();
                           }
                           final period = stats[index].period;
-                          final month = period.length >= 6
-                              ? '${int.parse(period.substring(4, 6))}월'
-                              : period;
+                          // "2025-11" → "11월" 또는 "202511" → "11월"
+                          String month;
+                          if (period.contains('-') && period.length >= 7) {
+                            month = '${int.parse(period.split('-')[1])}월';
+                          } else if (period.length >= 6) {
+                            month = '${int.parse(period.substring(4, 6))}월';
+                          } else {
+                            month = period;
+                          }
                           return Padding(
                             padding: const EdgeInsets.only(top: 8),
                             child: Text(

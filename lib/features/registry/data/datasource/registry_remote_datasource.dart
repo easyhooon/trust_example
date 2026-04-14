@@ -97,11 +97,9 @@ class RegistryRemoteDatasource {
 
     final data = response.data;
 
-    // 응답 구조에 맞게 파싱
+    // 실제 응답 구조: result → items → item
     final items = data is Map
-        ? (data['response']?['body']?['items'] as List? ??
-            data['items'] as List? ??
-            [])
+        ? (data['result']?['items']?['item'] as List? ?? [])
         : [];
 
     return items.map((item) {
