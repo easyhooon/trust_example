@@ -62,6 +62,7 @@ List<MapPolygonData> samplePolygons(Ref ref) {
         NLatLng(37.4960, 127.0300),
         NLatLng(37.5000, 127.0300),
         NLatLng(37.5000, 127.0250),
+        NLatLng(37.4960, 127.0250), // 닫힘 (첫 좌표와 동일)
       ],
       label: '개포 정비구역',
     ),
@@ -72,6 +73,7 @@ List<MapPolygonData> samplePolygons(Ref ref) {
         NLatLng(37.5310, 126.9940),
         NLatLng(37.5345, 126.9940),
         NLatLng(37.5345, 126.9880),
+        NLatLng(37.5310, 126.9880), // 닫힘 (첫 좌표와 동일)
       ],
       label: '한남 정비구역',
     ),
