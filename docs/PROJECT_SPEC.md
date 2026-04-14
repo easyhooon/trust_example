@@ -275,4 +275,10 @@ NAVER_MAP_CLIENT_ID=your_naver_map_client_id_here
 
 ## 레퍼런스
 
+### API 키 발급
+- [국가법령정보센터 Open API](https://open.law.go.kr/LSO/main.do) — 회원가입 후 마이페이지에서 인증키 발급
+- [등기정보광장 Open API](https://data.iros.go.kr) — 회원가입 후 인증키 발급
+- [네이버 클라우드 플랫폼 Application](https://console.ncloud.com/naver-service/application) — Application 등록 후 Maps 활성화 → 클라이언트 ID 발급
+
+### 기타
 - [안드로이드 개발자가 빠르게 적용할 수 있는 Flutter 프로젝트 구성](https://dev.to/kingori/andeuroideu-gaebaljaga-bbareuge-jeogyonghal-su-issneun-flutter-peurojegteu-guseong-1n83)
