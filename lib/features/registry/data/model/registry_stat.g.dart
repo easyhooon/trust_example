@@ -9,17 +9,17 @@ part of 'registry_stat.dart';
 _RegistryStat _$RegistryStatFromJson(Map<String, dynamic> json) =>
     _RegistryStat(
       period: json['period'] as String,
-      transferCount: (json['transferCount'] as num).toInt(),
-      preservationCount: (json['preservationCount'] as num).toInt(),
-      mortgageCount: (json['mortgageCount'] as num).toInt(),
+      region: json['region'] as String? ?? '',
+      district: json['district'] as String? ?? '',
+      count: (json['count'] as num).toInt(),
     );
 
 Map<String, dynamic> _$RegistryStatToJson(_RegistryStat instance) =>
     <String, dynamic>{
       'period': instance.period,
-      'transferCount': instance.transferCount,
-      'preservationCount': instance.preservationCount,
-      'mortgageCount': instance.mortgageCount,
+      'region': instance.region,
+      'district': instance.district,
+      'count': instance.count,
     };
 
 _Region _$RegionFromJson(Map<String, dynamic> json) =>

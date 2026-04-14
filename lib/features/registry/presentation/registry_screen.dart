@@ -20,10 +20,8 @@ class RegistryScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 지역 선택
             const _RegionSelector(),
             const SizedBox(height: 20),
-            // 통계 카드 + 차트
             const _StatsContent(),
           ],
         ),
@@ -49,7 +47,6 @@ class _RegionSelector extends ConsumerWidget {
           children: [
             Text('지역 선택', style: AppTextStyles.subheading),
             const SizedBox(height: 16),
-            // 시도 드롭다운
             regionsAsync.when(
               data: (regions) => _DropdownField(
                 hint: '시/도 선택',
@@ -72,8 +69,8 @@ class _RegionSelector extends ConsumerWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // 시군구 드롭다운
-            if (selectedSido != null) _DistrictDropdown(sidoCode: selectedSido.code),
+            if (selectedSido != null)
+              _DistrictDropdown(sidoCode: selectedSido.code),
           ],
         ),
       ),
@@ -92,20 +89,23 @@ class _DistrictDropdown extends ConsumerWidget {
     final districtsAsync = ref.watch(districtsProvider(sidoCode));
 
     return districtsAsync.when(
-      data: (districts) => _DropdownField(
-        hint: '시/군/구 선택',
-        value: selectedSigungu?.code,
-        items: districts
-            .map((r) => DropdownMenuItem(
-                  value: r.code,
-                  child: Text(r.name),
-                ))
-            .toList(),
-        onChanged: (code) {
-          final region = districts.firstWhere((r) => r.code == code);
-          ref.read(selectedSigunguProvider.notifier).select(region);
-        },
-      ),
+      data: (districts) {
+        if (districts.isEmpty) return const SizedBox.shrink();
+        return _DropdownField(
+          hint: '시/군/구 선택',
+          value: selectedSigungu?.code,
+          items: districts
+              .map((r) => DropdownMenuItem(
+                    value: r.code,
+                    child: Text(r.name),
+                  ))
+              .toList(),
+          onChanged: (code) {
+            final region = districts.firstWhere((r) => r.code == code);
+            ref.read(selectedSigunguProvider.notifier).select(region);
+          },
+        );
+      },
       loading: () => const _DropdownSkeleton(),
       error: (_, __) => Text(
         '시군구 목록을 불러올 수 없습니다',
@@ -174,7 +174,7 @@ class _DropdownSkeleton extends StatelessWidget {
   }
 }
 
-/// 통계 카드 + 차트
+/// 통계 콘텐츠
 class _StatsContent extends ConsumerWidget {
   const _StatsContent();
 
@@ -197,7 +197,7 @@ class _StatsContent extends ConsumerWidget {
         }
         return Column(
           children: [
-            _SummaryCards(stats: stats),
+            _SummaryCard(stats: stats),
             const SizedBox(height: 20),
             _StatsChart(stats: stats),
           ],
@@ -220,45 +220,38 @@ class _StatsContent extends ConsumerWidget {
   }
 }
 
-/// 요약 통계 카드
-class _SummaryCards extends StatelessWidget {
+/// 총 매매 건수 요약 카드
+class _SummaryCard extends StatelessWidget {
   final List<RegistryStat> stats;
 
-  const _SummaryCards({required this.stats});
+  const _SummaryCard({required this.stats});
 
   @override
   Widget build(BuildContext context) {
-    final totalTransfer = stats.fold(0, (sum, s) => sum + s.transferCount);
-    final totalPreservation =
-        stats.fold(0, (sum, s) => sum + s.preservationCount);
-    final totalMortgage = stats.fold(0, (sum, s) => sum + s.mortgageCount);
+    final totalCount = stats.fold(0, (sum, s) => sum + s.count);
 
-    return Row(
-      children: [
-        Expanded(
-          child: _StatCard(
-            label: '소유권이전',
-            value: _formatNumber(totalTransfer),
-            color: AppColors.primary,
-          ),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Text('소유권이전(매매) 신청 건수', style: AppTextStyles.caption),
+            const SizedBox(height: 8),
+            Text(
+              _formatNumber(totalCount),
+              style: AppTextStyles.heading.copyWith(
+                color: AppColors.primary,
+                fontSize: 32,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '최근 ${stats.length}개월 합계',
+              style: AppTextStyles.caption,
+            ),
+          ],
         ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _StatCard(
-            label: '소유권보존',
-            value: _formatNumber(totalPreservation),
-            color: AppColors.success,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: _StatCard(
-            label: '근저당설정',
-            value: _formatNumber(totalMortgage),
-            color: AppColors.error,
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -270,37 +263,6 @@ class _SummaryCards extends StatelessWidget {
           RegExp(r'(\d)(?=(\d{3})+(?!\d))'),
           (match) => '${match[1]},',
         );
-  }
-}
-
-class _StatCard extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color color;
-
-  const _StatCard({
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Text(label, style: AppTextStyles.caption),
-            const SizedBox(height: 8),
-            Text(
-              value,
-              style: AppTextStyles.heading.copyWith(color: color),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }
 
@@ -318,17 +280,7 @@ class _StatsChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('월별 추이', style: AppTextStyles.subheading),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _LegendDot(color: AppColors.primary, label: '소유권이전'),
-                const SizedBox(width: 16),
-                _LegendDot(color: AppColors.success, label: '소유권보존'),
-                const SizedBox(width: 16),
-                _LegendDot(color: AppColors.error, label: '근저당설정'),
-              ],
-            ),
+            Text('월별 매매 추이', style: AppTextStyles.subheading),
             const SizedBox(height: 20),
             SizedBox(
               height: 200,
@@ -338,12 +290,9 @@ class _StatsChart extends StatelessWidget {
                   barTouchData: BarTouchData(
                     touchTooltipData: BarTouchTooltipData(
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
-                        final labels = ['소유권이전', '소유권보존', '근저당설정'];
                         return BarTooltipItem(
-                          '${labels[rodIndex]}\n${rod.toY.toInt()}건',
-                          AppTextStyles.caption.copyWith(
-                            color: Colors.white,
-                          ),
+                          '${rod.toY.toInt()}건',
+                          AppTextStyles.caption.copyWith(color: Colors.white),
                         );
                       },
                     ),
@@ -359,13 +308,15 @@ class _StatsChart extends StatelessWidget {
                             return const SizedBox.shrink();
                           }
                           final period = stats[index].period;
-                          // "202401" → "1월"
                           final month = period.length >= 6
                               ? '${int.parse(period.substring(4, 6))}월'
                               : period;
                           return Padding(
                             padding: const EdgeInsets.only(top: 8),
-                            child: Text(month, style: AppTextStyles.caption.copyWith(fontSize: 11)),
+                            child: Text(
+                              month,
+                              style: AppTextStyles.caption.copyWith(fontSize: 11),
+                            ),
                           );
                         },
                       ),
@@ -389,22 +340,10 @@ class _StatsChart extends StatelessWidget {
                       x: i,
                       barRods: [
                         BarChartRodData(
-                          toY: s.transferCount.toDouble(),
+                          toY: s.count.toDouble(),
                           color: AppColors.primary,
-                          width: 6,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        BarChartRodData(
-                          toY: s.preservationCount.toDouble(),
-                          color: AppColors.success,
-                          width: 6,
-                          borderRadius: BorderRadius.circular(2),
-                        ),
-                        BarChartRodData(
-                          toY: s.mortgageCount.toDouble(),
-                          color: AppColors.error,
-                          width: 6,
-                          borderRadius: BorderRadius.circular(2),
+                          width: 16,
+                          borderRadius: BorderRadius.circular(4),
                         ),
                       ],
                     );
@@ -415,32 +354,6 @@ class _StatsChart extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _LegendDot extends StatelessWidget {
-  final Color color;
-  final String label;
-
-  const _LegendDot({required this.color, required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 8,
-          height: 8,
-          decoration: BoxDecoration(
-            color: color,
-            shape: BoxShape.circle,
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(label, style: AppTextStyles.caption),
-      ],
     );
   }
 }

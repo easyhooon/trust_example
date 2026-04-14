@@ -15,11 +15,11 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RegistryStat {
 
-/// 기간 (예: 2024-01)
- String get period;/// 소유권이전(매매) 건수
- int get transferCount;/// 소유권보존 건수
- int get preservationCount;/// 설정(근저당 등) 건수
- int get mortgageCount;
+/// 결과일자 (월별: 202401)
+ String get period;/// 시도명
+ String get region;/// 시군구명
+ String get district;/// 건수
+ int get count;
 /// Create a copy of RegistryStat
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -32,16 +32,16 @@ $RegistryStatCopyWith<RegistryStat> get copyWith => _$RegistryStatCopyWithImpl<R
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistryStat&&(identical(other.period, period) || other.period == period)&&(identical(other.transferCount, transferCount) || other.transferCount == transferCount)&&(identical(other.preservationCount, preservationCount) || other.preservationCount == preservationCount)&&(identical(other.mortgageCount, mortgageCount) || other.mortgageCount == mortgageCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RegistryStat&&(identical(other.period, period) || other.period == period)&&(identical(other.region, region) || other.region == region)&&(identical(other.district, district) || other.district == district)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,period,transferCount,preservationCount,mortgageCount);
+int get hashCode => Object.hash(runtimeType,period,region,district,count);
 
 @override
 String toString() {
-  return 'RegistryStat(period: $period, transferCount: $transferCount, preservationCount: $preservationCount, mortgageCount: $mortgageCount)';
+  return 'RegistryStat(period: $period, region: $region, district: $district, count: $count)';
 }
 
 
@@ -52,7 +52,7 @@ abstract mixin class $RegistryStatCopyWith<$Res>  {
   factory $RegistryStatCopyWith(RegistryStat value, $Res Function(RegistryStat) _then) = _$RegistryStatCopyWithImpl;
 @useResult
 $Res call({
- String period, int transferCount, int preservationCount, int mortgageCount
+ String period, String region, String district, int count
 });
 
 
@@ -69,12 +69,12 @@ class _$RegistryStatCopyWithImpl<$Res>
 
 /// Create a copy of RegistryStat
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? period = null,Object? transferCount = null,Object? preservationCount = null,Object? mortgageCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? period = null,Object? region = null,Object? district = null,Object? count = null,}) {
   return _then(_self.copyWith(
 period: null == period ? _self.period : period // ignore: cast_nullable_to_non_nullable
-as String,transferCount: null == transferCount ? _self.transferCount : transferCount // ignore: cast_nullable_to_non_nullable
-as int,preservationCount: null == preservationCount ? _self.preservationCount : preservationCount // ignore: cast_nullable_to_non_nullable
-as int,mortgageCount: null == mortgageCount ? _self.mortgageCount : mortgageCount // ignore: cast_nullable_to_non_nullable
+as String,region: null == region ? _self.region : region // ignore: cast_nullable_to_non_nullable
+as String,district: null == district ? _self.district : district // ignore: cast_nullable_to_non_nullable
+as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
@@ -160,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String period,  int transferCount,  int preservationCount,  int mortgageCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String period,  String region,  String district,  int count)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RegistryStat() when $default != null:
-return $default(_that.period,_that.transferCount,_that.preservationCount,_that.mortgageCount);case _:
+return $default(_that.period,_that.region,_that.district,_that.count);case _:
   return orElse();
 
 }
@@ -181,10 +181,10 @@ return $default(_that.period,_that.transferCount,_that.preservationCount,_that.m
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String period,  int transferCount,  int preservationCount,  int mortgageCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String period,  String region,  String district,  int count)  $default,) {final _that = this;
 switch (_that) {
 case _RegistryStat():
-return $default(_that.period,_that.transferCount,_that.preservationCount,_that.mortgageCount);case _:
+return $default(_that.period,_that.region,_that.district,_that.count);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +201,10 @@ return $default(_that.period,_that.transferCount,_that.preservationCount,_that.m
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String period,  int transferCount,  int preservationCount,  int mortgageCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String period,  String region,  String district,  int count)?  $default,) {final _that = this;
 switch (_that) {
 case _RegistryStat() when $default != null:
-return $default(_that.period,_that.transferCount,_that.preservationCount,_that.mortgageCount);case _:
+return $default(_that.period,_that.region,_that.district,_that.count);case _:
   return null;
 
 }
@@ -216,17 +216,17 @@ return $default(_that.period,_that.transferCount,_that.preservationCount,_that.m
 @JsonSerializable()
 
 class _RegistryStat implements RegistryStat {
-  const _RegistryStat({required this.period, required this.transferCount, required this.preservationCount, required this.mortgageCount});
+  const _RegistryStat({required this.period, this.region = '', this.district = '', required this.count});
   factory _RegistryStat.fromJson(Map<String, dynamic> json) => _$RegistryStatFromJson(json);
 
-/// 기간 (예: 2024-01)
+/// 결과일자 (월별: 202401)
 @override final  String period;
-/// 소유권이전(매매) 건수
-@override final  int transferCount;
-/// 소유권보존 건수
-@override final  int preservationCount;
-/// 설정(근저당 등) 건수
-@override final  int mortgageCount;
+/// 시도명
+@override@JsonKey() final  String region;
+/// 시군구명
+@override@JsonKey() final  String district;
+/// 건수
+@override final  int count;
 
 /// Create a copy of RegistryStat
 /// with the given fields replaced by the non-null parameter values.
@@ -241,16 +241,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegistryStat&&(identical(other.period, period) || other.period == period)&&(identical(other.transferCount, transferCount) || other.transferCount == transferCount)&&(identical(other.preservationCount, preservationCount) || other.preservationCount == preservationCount)&&(identical(other.mortgageCount, mortgageCount) || other.mortgageCount == mortgageCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _RegistryStat&&(identical(other.period, period) || other.period == period)&&(identical(other.region, region) || other.region == region)&&(identical(other.district, district) || other.district == district)&&(identical(other.count, count) || other.count == count));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,period,transferCount,preservationCount,mortgageCount);
+int get hashCode => Object.hash(runtimeType,period,region,district,count);
 
 @override
 String toString() {
-  return 'RegistryStat(period: $period, transferCount: $transferCount, preservationCount: $preservationCount, mortgageCount: $mortgageCount)';
+  return 'RegistryStat(period: $period, region: $region, district: $district, count: $count)';
 }
 
 
@@ -261,7 +261,7 @@ abstract mixin class _$RegistryStatCopyWith<$Res> implements $RegistryStatCopyWi
   factory _$RegistryStatCopyWith(_RegistryStat value, $Res Function(_RegistryStat) _then) = __$RegistryStatCopyWithImpl;
 @override @useResult
 $Res call({
- String period, int transferCount, int preservationCount, int mortgageCount
+ String period, String region, String district, int count
 });
 
 
@@ -278,12 +278,12 @@ class __$RegistryStatCopyWithImpl<$Res>
 
 /// Create a copy of RegistryStat
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? period = null,Object? transferCount = null,Object? preservationCount = null,Object? mortgageCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? period = null,Object? region = null,Object? district = null,Object? count = null,}) {
   return _then(_RegistryStat(
 period: null == period ? _self.period : period // ignore: cast_nullable_to_non_nullable
-as String,transferCount: null == transferCount ? _self.transferCount : transferCount // ignore: cast_nullable_to_non_nullable
-as int,preservationCount: null == preservationCount ? _self.preservationCount : preservationCount // ignore: cast_nullable_to_non_nullable
-as int,mortgageCount: null == mortgageCount ? _self.mortgageCount : mortgageCount // ignore: cast_nullable_to_non_nullable
+as String,region: null == region ? _self.region : region // ignore: cast_nullable_to_non_nullable
+as String,district: null == district ? _self.district : district // ignore: cast_nullable_to_non_nullable
+as String,count: null == count ? _self.count : count // ignore: cast_nullable_to_non_nullable
 as int,
   ));
 }
