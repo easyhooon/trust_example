@@ -11,8 +11,9 @@ void main() async {
   await dotenv.load(fileName: '.env');
 
   // 네이버 맵 SDK 초기화
-  await NaverMapSdk.instance.initialize(
+  await FlutterNaverMap().init(
     clientId: ApiKeys.naverMapClientId,
+    onAuthFailed: (ex) => debugPrint('네이버 맵 인증 실패: $ex'),
   );
 
   runApp(
