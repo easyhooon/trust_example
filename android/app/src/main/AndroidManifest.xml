@@ -36,7 +36,7 @@
         <!-- 네이버 맵 클라이언트 ID (.env의 NAVER_MAP_CLIENT_ID 값을 여기에도 입력) -->
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="YOUR_NAVER_MAP_CLIENT_ID" />
+            android:value="o79efidv7z" />
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />

@@ -54,7 +54,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>현재 위치를 지도에 표시하기 위해 위치 권한이 필요합니다.</string>
 	<key>NMFClientId</key>
-	<string>YOUR_NAVER_MAP_CLIENT_ID</string>
+	<string>o79efidv7z</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
